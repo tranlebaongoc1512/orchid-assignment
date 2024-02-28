@@ -119,11 +119,11 @@ export default function FavouriteScreen() {
       <View style={styles.toolbar}>
         <Text style={styles.toolbarTitle}>Danh sách yêu thích</Text>
         {favorites.length > 0 && (!checkMode ?
-          <TouchableOpacity onPress={() => setCheckMode(true)} style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+          <TouchableOpacity onPress={() => setCheckMode(true)} style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginRight: 10 }}>
             <Text style={styles.button}>Chọn</Text>
           </TouchableOpacity>
           :
-          <View style={{ flexDirection: 'row', gap: 10, alignItems: 'center' }}>
+          <View style={{ flexDirection: 'row', gap: 10, alignItems: 'center', marginRight: 10 }}>
             {checkList.length > 0 ?
               <TouchableOpacity onPress={deleteCheckList}>
                 <Icon name={"delete"} color='#042a11' size={24} />
@@ -263,6 +263,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#86e172",
     paddingLeft: 10,
     paddingRight: 10,
-    borderRadius: 10,
+    borderRadius: 15,
+    paddingTop: 4,
+    paddingBottom: 4,
   },
 })
