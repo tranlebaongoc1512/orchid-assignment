@@ -54,7 +54,6 @@ const styles = StyleSheet.create({
     },
     toolbarTitle: {
         fontSize: 24,
-        width: windowWidth,
-        textAlign: 'center'
+        paddingLeft: 10,
     },
 })
