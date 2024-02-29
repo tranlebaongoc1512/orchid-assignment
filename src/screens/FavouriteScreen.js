@@ -263,8 +263,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#86e172",
     paddingLeft: 10,
     paddingRight: 10,
-    borderRadius: 15,
     paddingTop: 4,
     paddingBottom: 4,
+    borderRadius: 15,
   },
 })

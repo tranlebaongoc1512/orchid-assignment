@@ -1,6 +1,6 @@
-import { View, Text, Image, StyleSheet, Dimensions, Linking, ScrollView, TouchableOpacity } from 'react-native'
-import React, { useState } from 'react'
-import { useNavigation, useRoute } from '@react-navigation/native'
+import { View, Text, Image, StyleSheet, Dimensions, Linking, ScrollView, TouchableOpacity, ActivityIndicator } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native'
 import Icon from 'react-native-vector-icons/AntDesign'
 import Icon2 from 'react-native-vector-icons/Ionicons'
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -12,6 +12,7 @@ export default function DetailScreen() {
   const route = useRoute();
   const { orchid } = route.params
   const [favouriteOrchids, setFavouriteOrchids] = useState([]);
+  const [loading, setLoading] = useState(false)
   const toggleFavourite = async (orchid) => {
     const foundFavouriteOrchid = favouriteOrchids.find((favouriteOrchid) => favouriteOrchid.id === orchid.id);
     if (foundFavouriteOrchid) {
@@ -26,6 +27,33 @@ export default function DetailScreen() {
       AsyncStorage.setItem('@Favourite', JSON.stringify(newFavouriteOrchids))
     }
   };
+  async function getFavourites() {
+    try {
+      setLoading(true)
+      const data = await AsyncStorage.getItem('@Favourite');
+      if (data !== null) {
+        setFavouriteOrchids(JSON.parse(data))
+      } else {
+        setFavouriteOrchids([]);
+      }
+    } catch (error) {
+      console.log(error)
+    } finally {
+      setLoading(false)
+    }
+  }
+  useFocusEffect(
+    React.useCallback(() => {
+      getFavourites()
+    }, [])
+  );
+  if (loading) {
+    return (
+      <View style={styles.container}>
+        <ActivityIndicator size='large' color='#36632c' />
+      </View>
+    )
+  }
   return (
     <ScrollView style={styles.container}>
       <View style={styles.toolbar}>
@@ -108,8 +136,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   toolbarTitle: {
-      fontSize: 24,
-      textAlign: 'center'
+    fontSize: 24,
+    textAlign: 'center'
   },
   button: {
     width: 40,
